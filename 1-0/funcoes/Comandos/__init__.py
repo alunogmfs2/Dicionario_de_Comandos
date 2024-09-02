@@ -21,10 +21,11 @@ def procurarPorComando():
             print(f"\nA Descricao do Comando {comando.lower()}:\n")
             print(cmd[1], "\n")
             pausar_terminal()
-        else:
-            limpar_terminal()
-            print(f"\nComando {comando.lower()} nao encontrado\n")
-            pausar_terminal()
+            return
+    limpar_terminal()
+    print(f"\nComando {comando.lower()} nao encontrado\n")
+    pausar_terminal()
+    return
 
 def procurar_comando() -> None:
     procurarPorComando()
@@ -35,6 +36,21 @@ def adicionar_comando() -> None:
     descricao = input("Digite a descricao do comando: ")
     db.executar(con, "INSERT INTO comandos (T_COMANDO, T_DESCRICAO) VALUES (?,?)", (comando, descricao))
     print("\nComando Adicionado\n")
+    pausar_terminal()
+
+def listar_comandos() -> None:
+    limpar_terminal()
+    comandos = db.comandos(con)
+    lim = 5
+    cont = 0
+    for cmd in comandos:
+        print(f"\nComando: {cmd[0].lower()}")
+        print(f"Descricao: {cmd[1]}\n")
+        cont += 1
+        if cont == lim:
+            cont = 0
+            pausar_terminal()
+            limpar_terminal()
     pausar_terminal()
 
 def alterarADescricaoDoComando() -> None:
@@ -61,11 +77,13 @@ def traduzir_comando(comando: int) -> None:
             adicionar_comando()
         case 3:
             alterarADescricaoDoComando()
+        case 4:
+            listar_comandos()
 
 def perguntarDescisaoComando() -> None:
     try:
         opcao = int(input("Digite a opcao: "))
-        if opcao < 0 or opcao > 3:
+        if opcao < 0 or opcao > 4:
             raise ValueError
         traduzir_comando(opcao)
     except:
@@ -90,4 +108,5 @@ def menu_comandos():
     print("1 - Procurar Comando")
     print("2 - Adicionar Comando")
     print("3 - Mudar Descricao de um Comando")
+    print("4 - Listar os comandos")
     perguntarDescisaoComando()

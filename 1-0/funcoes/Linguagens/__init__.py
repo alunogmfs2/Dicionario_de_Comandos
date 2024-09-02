@@ -1,7 +1,7 @@
 from funcoes.Modulo import limpar_terminal, pausar_terminal
 from funcoes.Database import Database
 
-linguagens = ["Javascript", "Python", "Linux", "C++", "SQL"]
+linguagens = ["HTML", "CSS", "Javascript", "SQL", "Python", "Linux", "C++"]
 db = Database()
 
 def perguntarDescisaoLinguagem() -> int:
